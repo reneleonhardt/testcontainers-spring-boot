@@ -64,20 +64,17 @@ public abstract class BaseEmbeddedSeleniumTest {
     @Test
     public void seleniumShouldWork() {
         RemoteWebDriver driver = container.getWebDriver();
-        getIndexPage(driver, port);
+        getIndexPage(driver);
         assertThat(driver.getTitle()).isEqualTo("Hello World Page");
     }
 
     @Test
-    public void seleniumLinkShouldWork() {
+    public void seleniumLinkShouldWorkAndPropertiesAreAvailable() {
         RemoteWebDriver driver = container.getWebDriver();
-        getIndexPage(driver, port);
+        getIndexPage(driver);
         driver.findElementByLinkText("Test Link").click();
         assertThat(driver.getTitle()).isEqualTo("Test Link Page");
-    }
 
-    @Test
-    public void propertiesAreAvailable() {
         assertThat(environment.getProperty("embedded.selenium.port")).isNotEmpty();
         assertThat(environment.getProperty("embedded.selenium.host")).isNotEmpty();
 
@@ -85,10 +82,9 @@ public abstract class BaseEmbeddedSeleniumTest {
         assertThat(environment.getProperty("embedded.selenium.vnc.port")).isNotEmpty();
         assertThat(environment.getProperty("embedded.selenium.vnc.username")).isNotEmpty();
         assertThat(environment.getProperty("embedded.selenium.vnc.password")).isNotEmpty();
-
     }
 
-    private void getIndexPage(RemoteWebDriver driver, int port) {
+    private void getIndexPage(RemoteWebDriver driver) {
         driver.get("http://" + dockerHostname + ":" + port + "/index.html");
     }
 
